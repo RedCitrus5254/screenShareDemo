@@ -13,10 +13,7 @@
 </head>
 <body>
     <section class="make-center">
-        <input type="text" id="room-id" value="abcdef" size="20"/>
-        <input id="open-room" type="button" name="button"/>
-        <button id="join-room">Join Room</button>
-        <button id="open-or-join-room">Auto Open Or Join Room</button>
+        <input id="getScreenButton" type="button" style="width: 50px;height:50px" name="button"/>
 
         <div id="videos-container" style="margin: 20px 0;"></div>
 
@@ -34,39 +31,13 @@
         // ......................................................
         // .......................UI Code........................
         // ......................................................
-        document.getElementById('open-room').onclick = function () {
-            disableInputButtons();
-            connection.open('carrot1', function () {
-                showRoomURL(connection.sessionid);
+        document.getElementById('getScreenButton').onclick = function () {
+            connection.captureUserMedia(function () {
+                
             });
         };
 
-        document.getElementById('join-room').onclick = function () {
-            disableInputButtons();
-
-            connection.sdpConstraints.mandatory = {
-                OfferToReceiveAudio: false,
-                OfferToReceiveVideo: true
-            };
-            connection.join(document.getElementById('room-id').value);
-        };
-
-        document.getElementById('open-or-join-room').onclick = function () {
-            disableInputButtons();
-            connection.openOrJoin(document.getElementById('room-id').value, function (isRoomExist, roomid) {
-                if (isRoomExist === false && connection.isInitiator === true) {
-                    // if room doesn't exist, it means that current user will create the room
-                    showRoomURL(roomid);
-                }
-
-                if (isRoomExist) {
-                    connection.sdpConstraints.mandatory = {
-                        OfferToReceiveAudio: false,
-                        OfferToReceiveVideo: true
-                    };
-                }
-            });
-        };
+        
 
         // ......................................................
         // ..................RTCMultiConnection Code.............
